@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Stats</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a, #60a5fa);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+        .table-container {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">URL Statistics</h1>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="p-3">Original URL</th>
+                        <th class="p-3">Short URL</th>
+                        <th class="p-3">Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for url in urls %}
+                    <tr class="border-b hover:bg-gray-100 transition duration-200">
+                        <td class="p-3 text-gray-700 truncate max-w-xs">{{ url.original_url }}</td>
+                        <td class="p-3">
+                            <a href="{{ request.host_url }}{{ url.short_code }}" target="_blank"
+                               class="text-blue-600 hover:underline">{{ request.host_url }}{{ url.short_code }}</a>
+                        </td>
+                        <td class="p-3 text-gray-700">{{ url.clicks }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="mt-6 text-center">
+            <a href="{{ url_for('index') }}"
+               class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                Back to Home
+            </a>
+        </p>
+    </div>
+</body>
+</html>

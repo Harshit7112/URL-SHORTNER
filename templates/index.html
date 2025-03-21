@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a, #60a5fa);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container max-w-md mx-auto bg-white p-6 rounded-lg shadow-xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">URL Shortener</h1>
+        <form method="POST" class="space-y-4">
+            <input type="url" name="url" placeholder="Paste your URL here" required
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit"
+                    class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                Shorten It!
+            </button>
+        </form>
+
+        {% if short_url %}
+            <div class="mt-6 p-4 bg-gray-100 rounded-lg shadow-inner">
+                <p class="text-gray-700">Your Short URL:</p>
+                <div class="flex items-center space-x-2">
+                    <a href="{{ short_url }}" target="_blank"
+                       class="text-blue-600 font-semibold hover:underline">{{ short_url }}</a>
+                    <button onclick="copyToClipboard('{{ short_url }}')"
+                            class="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition duration-300">
+                        Copy
+                    </button>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">
+                    See stats <a href="{{ url_for('stats') }}" class="text-blue-500 hover:underline">here</a>.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>
